@@ -6,9 +6,9 @@
       "preLaunchTask": "Build (Debug)",
       "type": "cppdbg",
       "request": "launch",
-      "program": "${workspaceFolder}/build/SkiInterpreter",
+      "program": "${workspaceFolder}/build/ski",
       "args": [
-        "-dbg",
+        "../ski-programs/test.ski",
       ],
       "stopAtEntry": false,
       "cwd": "${workspaceRoot}/build",

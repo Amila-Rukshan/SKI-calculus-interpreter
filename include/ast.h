@@ -4,6 +4,8 @@
 #include <string>
 #include <vector>
 
+namespace Ski {
+
 class Expr {
 public:
   virtual ~Expr() = default;
@@ -71,3 +73,5 @@ private:
   std::vector<std::unique_ptr<Defn>> defns;
   std::vector<std::unique_ptr<Expr>> exprs;
 };
+
+} // namespace Ski
