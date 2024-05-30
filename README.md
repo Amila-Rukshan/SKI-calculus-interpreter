@@ -29,3 +29,10 @@ SubExpr    -> <identifier>                                                   => 
            -> 'I'                                                            => "i";
            ->  '(' Expr ')'
 ```
+
+## Build
+
+```
+cmake -DCMAKE_BUILD_TYPE=Debug ..
+cmake --build .
+```
