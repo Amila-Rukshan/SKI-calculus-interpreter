@@ -12,22 +12,22 @@ This tree includes code for interpretation of extended version of SKI Calculus.
 ## Context Free Grammar
 
 ```
-SKI        ->  Defns Exprs                                                   => "ski";
+SKI        -> Defns Exprs                                                   => "ski";
 
-Defns      ->  (Defn ';')*                                                   => "defns";
+Defns      -> (Defn ';')*                                                   => "defns";
 
-Exprs      ->  (Expr ';')*                                                   => "exprs";
+Exprs      -> (Expr ';')*                                                   => "exprs";
 
-Defn       -> 'def' <identifier> '=' Expr                                    => "defn";
+Defn       -> 'def' <identifier> '=' Expr                                   => "defn";
 
 Expr       -> SubExpr
-           -> Expr SubExpr                                                   => "app";
+           -> Expr SubExpr                                                  => "app";
 
-SubExpr    -> <identifier>                                                   => "var";
-           -> 'S'                                                            => "s";
-           -> 'K'                                                            => "k";
-           -> 'I'                                                            => "i";
-           ->  '(' Expr ')'
+SubExpr    -> <identifier>                                                  => "var";
+           -> 'S'                                                           => "s";
+           -> 'K'                                                           => "k";
+           -> 'I'                                                           => "i";
+           -> '(' Expr ')'
 ```
 
 ## Build

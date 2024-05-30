@@ -7,7 +7,31 @@ set(CMAKE_CXX_STANDARD_REQUIRED YES)
 set(CMAKE_CXX_EXTENSIONS NO)
 set(CMAKE_CXX_FLAGS_DEBUG "-g -O0")
 
+### gtest start ###
+include(FetchContent)
+FetchContent_Declare(
+  googletest
+  URL https://github.com/google/googletest/archive/03597a01ee50ed33e9dfd640b249b4be3799d395.zip
+)
+# For Windows: Prevent overriding the parent project's compiler/linker settings
+set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+FetchContent_MakeAvailable(googletest)
+### gtest start ###
+
 include_directories(${PROJECT_SOURCE_DIR}/include)
 
 file(GLOB_RECURSE SOURCES "ski/*.cc")
 add_executable(ski ${SOURCES})
+
+enable_testing()
+
+add_executable(tokenizer_test 
+  test/tokenizer_test.cc 
+  include/tokenizer.h 
+  ski/tokenizer.cc
+)
+
+target_link_libraries(tokenizer_test GTest::gtest_main)
+
+include(GoogleTest)
+gtest_discover_tests(tokenizer_test)

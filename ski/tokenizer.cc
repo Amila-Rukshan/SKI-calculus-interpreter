@@ -83,7 +83,6 @@ Token Tokenizer::find_next_token() {
     position++;
     return {Kind::kEqual, "=", line, column++};
   case '#':
-    position++;
     return find_line_comment();
   case ' ':
   case '\t':

@@ -24,5 +24,25 @@
         ".": "${workspaceFolder}"
       }
     },
+    {
+      "name": "Tokenizer Test (Debug)",
+      "preLaunchTask": "Tokenizer Test (Debug)",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/test-build/tokenizer_test",
+      "stopAtEntry": false,
+      "cwd": "${workspaceRoot}/test-build",
+      "environment": [
+        {
+          "name": "GLOG_logtostderr",
+          "value": "1"
+        }
+      ],
+      "externalConsole": false,
+      "MIMode": "lldb",
+      "sourceFileMap": {
+        ".": "${workspaceFolder}"
+      }
+    },
   ]
 }
