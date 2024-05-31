@@ -2,7 +2,7 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "(lldb) Launch Debug",
+      "name": "Ski Debug",
       "preLaunchTask": "Build (Debug)",
       "type": "cppdbg",
       "request": "launch",
@@ -30,6 +30,26 @@
       "type": "cppdbg",
       "request": "launch",
       "program": "${workspaceFolder}/test-build/tokenizer_test",
+      "stopAtEntry": false,
+      "cwd": "${workspaceRoot}/test-build",
+      "environment": [
+        {
+          "name": "GLOG_logtostderr",
+          "value": "1"
+        }
+      ],
+      "externalConsole": false,
+      "MIMode": "lldb",
+      "sourceFileMap": {
+        ".": "${workspaceFolder}"
+      }
+    },
+    {
+      "name": "Parser Test (Debug)",
+      "preLaunchTask": "Parser Test (Debug)",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/test-build/parser_test",
       "stopAtEntry": false,
       "cwd": "${workspaceRoot}/test-build",
       "environment": [

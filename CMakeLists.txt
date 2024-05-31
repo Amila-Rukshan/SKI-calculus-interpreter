@@ -30,8 +30,16 @@ add_executable(tokenizer_test
   include/tokenizer.h 
   ski/tokenizer.cc
 )
-
 target_link_libraries(tokenizer_test GTest::gtest_main)
+
+add_executable(parser_test 
+  test/parser_test.cc 
+  include/parser.h 
+  ski/parser.cc
+  ski/tokenizer.cc
+)
+target_link_libraries(parser_test GTest::gtest_main)
 
 include(GoogleTest)
 gtest_discover_tests(tokenizer_test)
+gtest_discover_tests(parser_test)
