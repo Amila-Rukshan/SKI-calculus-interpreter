@@ -1,14 +1,16 @@
-def c1 = S (K S) K;
-def c2 = S (c1 S (c1 K (c1 S (S (c1 c1 I) (K I)))))(K (c1 K I));
-def inc = S (S (K S) K);
-def add = c2 ( c1 c1 ( c2 I inc) ) I;
+# You can write one-line comments in Python style.
 
+# Definition block comes first.
+def inc = S (S (K S) K); # (S ((S (K S)) K))
 def _0  = S K;
 def _1  = inc _0;
-def _2  = inc _1;
-def _3  = inc _2;
-def _4  = inc _3;
-def _5  = inc _4;
 
-_5;
-add _3 _2;
+# Expression block comes next.
+_0 f x;
+_1 f x;
+(inc _1) f x;
+
+# Expected output is as follows:
+# x
+# (f x)
+# (f (f x))
