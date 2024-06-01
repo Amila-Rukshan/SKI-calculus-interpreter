@@ -30,9 +30,6 @@ SubExpr    -> <identifier>                                                  => "
            -> '(' Expr ')'
 ```
 
-## Build
+## Related Content
 
-```
-cmake -DCMAKE_BUILD_TYPE=Debug ..
-cmake --build .
-```
+- [SKI Calculus - A variable-free programming language](https://developerdiary.me/ski-calculus/)
