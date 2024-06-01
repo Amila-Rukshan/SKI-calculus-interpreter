@@ -14,6 +14,60 @@ TEST(SkiParserTest, TestEmptyProgram) {
   EXPECT_EQ(ski_ast, nullptr);
 }
 
+TEST(SkiParserTest, TestSingleDefinetion) {
+  std::string ski_program = R"(def c1 = S(KS)K;)";
+  Tokenizer tokenizer(ski_program, "defn.ski");
+  Parser parser(std::move(tokenizer.tokenize()), "defn.ski");
+  auto ski_ast = parser.parse();
+  EXPECT_STREQ(R"(def c1 = ((S (K S)) K);
+
+)",
+               std::string(*ski_ast).c_str());
+}
+
+TEST(SkiParserTest, TestDefinetions) {
+  std::string ski_program = R"(def c1 = S (K S) K;
+def c2 = S (c1 S (c1 K (c1 S (S (c1 c1 I) (K I)))))(K (c1 K I));
+def swap = c1 (c2 I) I;)";
+  Tokenizer tokenizer(ski_program, "defns.ski");
+  Parser parser(std::move(tokenizer.tokenize()), "defns.ski");
+  auto ski_ast = parser.parse();
+  EXPECT_STREQ(R"(def c1 = ((S (K S)) K);
+def c2 = ((S ((c1 S) ((c1 K) ((c1 S) ((S ((c1 c1) I)) (K I)))))) (K ((c1 K) I)));
+def swap = ((c1 (c2 I)) I);
+
+)",
+               std::string(*ski_ast).c_str());
+}
+
+TEST(SkiParserTest, TestSingleExpression) {
+  std::string ski_program = R"((S K) f x;)";
+  Tokenizer tokenizer(ski_program, "expr.ski");
+  Parser parser(std::move(tokenizer.tokenize()), "expr.ski");
+  auto ski_ast = parser.parse();
+  EXPECT_STREQ(R"(
+(((S K) f) x);
+)",
+               std::string(*ski_ast).c_str());
+}
+
+TEST(SkiParserTest, TestExpressions) {
+  std::string ski_program = R"(
+(K K )(K K); # outputs K
+(S I I) (S I I); # never-ending loop
+S (K u) (K v) w; # outputs (u v)
+)";
+  Tokenizer tokenizer(ski_program, "exprs.ski");
+  Parser parser(std::move(tokenizer.tokenize()), "exprs.ski");
+  auto ski_ast = parser.parse();
+  EXPECT_STREQ(R"(
+((K K) (K K));
+(((S I) I) ((S I) I));
+(((S (K u)) (K v)) w);
+)",
+               std::string(*ski_ast).c_str());
+}
+
 TEST(SkiParserTest, TestDefinetionsAndExpressions) {
   std::string ski_program = R"(# You can write one-line comments in Python style.
 
@@ -32,8 +86,8 @@ _1 f x;
 # (f x)
 # (f (f x))
 )";
-  Tokenizer tokenizer(ski_program, "defn.ski");
-  Parser parser(std::move(tokenizer.tokenize()), "defn.ski");
+  Tokenizer tokenizer(ski_program, "defnsexprs.ski");
+  Parser parser(std::move(tokenizer.tokenize()), "defnsexprs.ski");
   auto ski_ast = parser.parse();
   EXPECT_STREQ(
       R"(def inc = (S ((S (K S)) K));

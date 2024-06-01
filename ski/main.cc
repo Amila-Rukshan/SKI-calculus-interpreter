@@ -28,6 +28,7 @@ int main(int argc, char** argv) {
   Ski::Parser parser(std::move(tokenizer.tokenize()), ski_filename);
   auto ski_ast = parser.parse();
 
-  std::cout << static_cast<std::string>(*ski_ast) << "\n";
+  if (ski_ast)
+    std::cout << static_cast<std::string>(*ski_ast) << "\n";
   std::cout << "SKI Interpreter\n";
 }
