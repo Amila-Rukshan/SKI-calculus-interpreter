@@ -14,7 +14,7 @@ TEST(SkiParserTest, TestEmptyProgram) {
   EXPECT_EQ(ski_ast, nullptr);
 }
 
-TEST(SkiParserTest, TestSingleDefinetion) {
+TEST(SkiParserTest, TestSingleDefinition) {
   std::string ski_program = R"(def c1 = S(KS)K;)";
   Tokenizer tokenizer(ski_program, "defn.ski");
   Parser parser(std::move(tokenizer.tokenize()), "defn.ski");
@@ -25,7 +25,7 @@ TEST(SkiParserTest, TestSingleDefinetion) {
                std::string(*ski_ast).c_str());
 }
 
-TEST(SkiParserTest, TestDefinetions) {
+TEST(SkiParserTest, TestDefinitions) {
   std::string ski_program = R"(def c1 = S (K S) K;
 def c2 = S (c1 S (c1 K (c1 S (S (c1 c1 I) (K I)))))(K (c1 K I));
 def swap = c1 (c2 I) I;)";
@@ -68,7 +68,7 @@ S (K u) (K v) w; # outputs (u v)
                std::string(*ski_ast).c_str());
 }
 
-TEST(SkiParserTest, TestDefinetionsAndExpressions) {
+TEST(SkiParserTest, TestDefinitionsAndExpressions) {
   std::string ski_program = R"(# You can write one-line comments in Python style.
 
 # Definition block comes first.

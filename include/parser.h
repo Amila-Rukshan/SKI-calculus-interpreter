@@ -31,6 +31,8 @@ private:
   std::unique_ptr<std::vector<Token>> tokens;
   std::string ski_filename;
   int token_index;
+  std::vector<std::string> ordered_defs;
+  std::unordered_map<std::string, Expr*> def_map;
 
   static std::unordered_map<Kind, std::string> kind_to_name;
 };

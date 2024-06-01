@@ -4,6 +4,7 @@
 
 #include "../include/tokenizer.h"
 #include "../include/parser.h"
+#include "../include/interpreter.h"
 
 int main(int argc, char** argv) {
   if (argc != 2) {
@@ -28,7 +29,12 @@ int main(int argc, char** argv) {
   Ski::Parser parser(std::move(tokenizer.tokenize()), ski_filename);
   auto ski_ast = parser.parse();
 
-  if (ski_ast)
-    std::cout << static_cast<std::string>(*ski_ast) << "\n";
-  std::cout << "SKI Interpreter\n";
+  if (!ski_ast)
+    return 0;
+
+  Ski::Interpreter interpreter(std::move(ski_ast));
+  auto outputs = interpreter.interpret_exprs();
+  for (auto& output : outputs) {
+    std::cout << output << "\n";
+  }
 }

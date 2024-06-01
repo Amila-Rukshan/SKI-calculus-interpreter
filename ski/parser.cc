@@ -16,7 +16,8 @@ std::unique_ptr<Ski> Parser::parse() {
     parse_exprs(exprs);
     if (defns.empty() && exprs.empty())
       return nullptr;
-    return std::make_unique<Ski>(std::move(defns), std::move(exprs));
+    return std::make_unique<Ski>(std::move(defns), std::move(exprs), std::move(ordered_defs),
+                                 std::move(def_map));
   } catch (std::exception& e) {
     std::cout << e.what() << "\n";
     return nullptr;
@@ -25,7 +26,10 @@ std::unique_ptr<Ski> Parser::parse() {
 
 void Parser::parse_dfns(std::vector<std::unique_ptr<Defn>>& defns) {
   while (has_tokens() && current_token_kind() == Kind::kDef) {
-    defns.push_back(std::move(parse_dfn()));
+    std::unique_ptr<Defn> dfn = parse_dfn();
+    ordered_defs.push_back(dfn->get_identifier());
+    def_map[dfn->get_identifier()] = dfn->get_expr();
+    defns.push_back(std::move(dfn));
     read_and_ignore_token(Kind::kSemiColon);
   }
 }
