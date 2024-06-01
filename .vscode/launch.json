@@ -64,5 +64,25 @@
         ".": "${workspaceFolder}"
       }
     },
+    {
+      "name": "Interpreter Test (Debug)",
+      "preLaunchTask": "Interpreter Test (Debug)",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/test-build/interpreter_test",
+      "stopAtEntry": false,
+      "cwd": "${workspaceRoot}/test-build",
+      "environment": [
+        {
+          "name": "GLOG_logtostderr",
+          "value": "1"
+        }
+      ],
+      "externalConsole": false,
+      "MIMode": "lldb",
+      "sourceFileMap": {
+        ".": "${workspaceFolder}"
+      }
+    },
   ]
 }

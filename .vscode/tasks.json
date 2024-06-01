@@ -34,5 +34,16 @@
         "isDefault": true
       }
     },
+    {
+      "label": "Interpreter Test (Debug)",
+      "type": "shell",
+      "osx": {
+        "command": "mkdir -p ${workspaceFolder}/test-build && cd ${workspaceFolder}/test-build && cmake -G Ninja -DCMAKE_BUILD_TYPE=Debug .. && cmake --build . --target interpreter_test"
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    },
   ]
 }

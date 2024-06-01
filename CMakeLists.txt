@@ -40,6 +40,15 @@ add_executable(parser_test
 )
 target_link_libraries(parser_test GTest::gtest_main)
 
+add_executable(interpreter_test 
+  test/interpreter_test.cc 
+  include/interpreter.h 
+  ski/parser.cc
+  ski/tokenizer.cc
+  ski/interpreter.cc
+)
+target_link_libraries(interpreter_test GTest::gtest_main)
+
 include(GoogleTest)
 gtest_discover_tests(tokenizer_test)
 gtest_discover_tests(parser_test)
