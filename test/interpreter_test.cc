@@ -113,3 +113,33 @@ is_odd _2;
   EXPECT_STREQ(outputs[1].c_str(), "K");
   EXPECT_STREQ(outputs[2].c_str(), "(S K)");
 }
+
+TEST(SkiInterpreterTest, TestArithmeticOperations) {
+  std::string ski_program = R"(
+def c1 = S (K S) K;
+def c2 = S (c1 S (c1 K (c1 S (S (c1 c1 I) (K I)))))(K (c1 K I));
+def inc = S (S (K S) K);
+def add = c2 ( c1 c1 ( c2 I inc) ) I;
+
+
+def _0  = S K;
+def _1  = inc _0;
+def _2  = inc _1;
+def _3  = inc _2;
+def _4  = inc _3;
+def _5  = inc _4;
+
+_5;
+add _3 _2;
+)";
+  Tokenizer tokenizer(ski_program, "test.ski");
+  Parser parser(std::move(tokenizer.tokenize()), "test.ski");
+  auto ski_ast = parser.parse();
+  Interpreter interpreter(std::move(ski_ast));
+  auto outputs = interpreter.interpret_exprs();
+  ASSERT_EQ(outputs.size(), 2);
+  EXPECT_STREQ(outputs[0].c_str(), "((S ((S (K S)) K)) ((S ((S (K S)) K)) ((S ((S (K S)) K)) ((S "
+                                   "((S (K S)) K)) ((S ((S (K S)) K)) (S K))))))");
+  EXPECT_STREQ(outputs[1].c_str(), "((S ((S (K S)) K)) ((S ((S (K S)) K)) ((S ((S (K S)) K)) ((S "
+                                   "((S (K S)) K)) ((S ((S (K S)) K)) (S K))))))");
+}
