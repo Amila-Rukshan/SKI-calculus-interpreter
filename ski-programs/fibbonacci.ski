@@ -1,0 +1,52 @@
+# helper combinators
+def c1 = S (K S) K;
+def c2 = S (c1 S (c1 K (c1 S (S (c1 c1 I) (K I)))))(K (c1 K I));
+
+# data abstraction pairs
+def pair = c2 (c1 c1 (c1 c2 (c1 (c2 I) I)))I;
+def first = K;
+def second = S K;
+
+# natural numbers
+def _0  = S K;
+def inc = S (S (K S) K);
+def _1  = inc _0;
+def _2  = inc _1;
+def _3  = inc _2;
+def _4  = inc _3;
+def _5  = inc _4;
+def _8  = _4 inc _4;
+
+# addition 
+def add = c2 ( c1 c1 ( c2 I inc) ) I;
+
+# fibbonacci numbers
+# 1 1   1 1
+#  \    |/
+# 2 1   2 1
+#  \    |/
+# 3 2   3 2
+#  \    |/
+# 5 3   5 3
+
+# input a consecutive pair of fibbonacci numbers to get the next overlapping pair of fibonacci numbers
+# fib p = pair (add (p first) (p second)) (p first) 
+
+# Solving,
+# fib = A(pair (add (p first) (p second)) (p first) , p)
+# = S A(pair (add (p first) (p second)), p) A(p first, p)
+# = S (c1 pair A(add (p first) (p second), p))(c2 I first)
+# = S (c1 pair (S A(add (p first), p)A(p second, p)))(c2 I first)
+# = S (c1 pair (S (c1 add A(p first, p))A(p second, p)))(c2 I first)
+# = S (c1 pair (S (c1 add (c2 I first))(c2 I second)))(c2 I first)
+
+def fib = S (c1 pair (S (c1 add (c2 I first))(c2 I second)))(c2 I first);
+
+(_2 fib (pair _1 _1)) first;    # calculate 4th fibbonacci number
+_3;                             # expected value is 3
+
+(_3 fib (pair _1 _1)) first;    # calculate 5th fibbonacci number
+_5;                             # expected value is 5
+
+(_1 fib (pair _5 _3)) first;    # calculate 6th fibbonacci number
+_8;                             # expected value is 8

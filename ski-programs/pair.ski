@@ -1,0 +1,13 @@
+# helper combinators
+def c1 = S (K S) K;
+def c2 = S (c1 S (c1 K (c1 S (S (c1 c1 I) (K I)))))(K (c1 K I));
+
+# data abstraction pairs
+def pair = c2 (c1 c1 (c1 c2 (c1 (c2 I) I)))I;
+def first = K;
+def second = S K;
+
+pair a b first;                                     # a
+pair a b second;                                    # b
+
+pair (pair u v second) (pair w x first) first;      # v
