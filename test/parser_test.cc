@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 
-#include "../include/tokenizer.h"
-#include "../include/parser.h"
+#include "tokenizer.h"
+#include "parser.h"
 
 using namespace Ski;
 

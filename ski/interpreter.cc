@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "../include/interpreter.h"
+#include "interpreter.h"
 
 namespace Ski {
 

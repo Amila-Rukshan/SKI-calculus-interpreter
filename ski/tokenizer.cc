@@ -1,10 +1,8 @@
-#pragma once
-
 #include <iostream>
 #include <string>
 #include <vector>
 
-#include "../include/tokenizer.h"
+#include "tokenizer.h"
 
 namespace Ski {
 

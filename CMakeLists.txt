@@ -20,35 +20,45 @@ FetchContent_MakeAvailable(googletest)
 
 include_directories(${PROJECT_SOURCE_DIR}/include)
 
-file(GLOB_RECURSE SOURCES "ski/*.cc")
-add_executable(ski ${SOURCES})
+add_library(tokenizer ski/tokenizer.cc)
+add_library(parser ski/parser.cc)
+add_library(interpreter ski/interpreter.cc)
+
+add_executable(ski ski/main.cc)
+target_link_libraries(ski 
+  PRIVATE 
+    tokenizer 
+    parser 
+    interpreter
+)
 
 enable_testing()
 
-add_executable(tokenizer_test 
-  test/tokenizer_test.cc 
-  include/tokenizer.h 
-  ski/tokenizer.cc
+add_executable(tokenizer_test EXCLUDE_FROM_ALL test/tokenizer_test.cc)
+target_link_libraries(tokenizer_test 
+  PRIVATE 
+    tokenizer 
+    GTest::gtest_main
 )
-target_link_libraries(tokenizer_test GTest::gtest_main)
 
-add_executable(parser_test 
-  test/parser_test.cc 
-  include/parser.h 
-  ski/parser.cc
-  ski/tokenizer.cc
+add_executable(parser_test EXCLUDE_FROM_ALL test/parser_test.cc)
+target_link_libraries(parser_test 
+  PRIVATE 
+    tokenizer 
+    parser
+    GTest::gtest_main
 )
-target_link_libraries(parser_test GTest::gtest_main)
 
-add_executable(interpreter_test 
-  test/interpreter_test.cc 
-  include/interpreter.h 
-  ski/parser.cc
-  ski/tokenizer.cc
-  ski/interpreter.cc
+add_executable(interpreter_test EXCLUDE_FROM_ALL test/interpreter_test.cc)
+target_link_libraries(interpreter_test 
+  PRIVATE
+  tokenizer 
+  parser
+  interpreter
+  GTest::gtest_main
 )
-target_link_libraries(interpreter_test GTest::gtest_main)
 
 include(GoogleTest)
 gtest_discover_tests(tokenizer_test)
 gtest_discover_tests(parser_test)
+gtest_discover_tests(interpreter_test)

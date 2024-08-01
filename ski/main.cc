@@ -2,9 +2,9 @@
 #include <fstream>
 #include <sstream>
 
-#include "../include/tokenizer.h"
-#include "../include/parser.h"
-#include "../include/interpreter.h"
+#include "tokenizer.h"
+#include "parser.h"
+#include "interpreter.h"
 
 int main(int argc, char** argv) {
   if (argc != 2) {

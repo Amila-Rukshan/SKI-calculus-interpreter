@@ -1,7 +1,7 @@
 #include <memory>
 #include <iostream>
 
-#include "../include/parser.h"
+#include "parser.h"
 
 namespace Ski {
 

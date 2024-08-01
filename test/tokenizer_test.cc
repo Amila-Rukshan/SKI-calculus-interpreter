@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 
-#include "../include/tokenizer.h"
+#include "tokenizer.h"
 
 using namespace Ski;
 
