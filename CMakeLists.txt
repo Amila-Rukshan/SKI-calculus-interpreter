@@ -29,25 +29,22 @@ add_library(tokenizer OBJECT ski/tokenizer.cc)
 add_library(parser OBJECT ski/parser.cc)
 add_library(interpreter OBJECT ski/interpreter.cc)
 
-add_executable(ski ski/main.cc $<TARGET_OBJECTS:tokenizer>
-                   $<TARGET_OBJECTS:parser> $<TARGET_OBJECTS:interpreter>)
+add_executable(ski ski/main.cc)
+target_link_libraries(ski PRIVATE tokenizer parser interpreter)
 
 enable_testing()
 
-add_executable(tokenizer_test EXCLUDE_FROM_ALL test/tokenizer_test.cc
-                                               $<TARGET_OBJECTS:tokenizer>)
-target_link_libraries(tokenizer_test PRIVATE GTest::gtest_main)
+add_executable(tokenizer_test EXCLUDE_FROM_ALL test/tokenizer_test.cc)
+target_link_libraries(tokenizer_test PRIVATE tokenizer GTest::gtest_main)
 
 add_executable(
-  parser_test EXCLUDE_FROM_ALL test/parser_test.cc $<TARGET_OBJECTS:tokenizer>
-                               $<TARGET_OBJECTS:parser>)
-target_link_libraries(parser_test PRIVATE GTest::gtest_main)
+  parser_test EXCLUDE_FROM_ALL test/parser_test.cc)
+target_link_libraries(parser_test PRIVATE tokenizer parser GTest::gtest_main)
 
 add_executable(
   interpreter_test EXCLUDE_FROM_ALL
-  test/interpreter_test.cc $<TARGET_OBJECTS:tokenizer> $<TARGET_OBJECTS:parser>
-  $<TARGET_OBJECTS:interpreter>)
-target_link_libraries(interpreter_test PRIVATE GTest::gtest_main)
+  test/interpreter_test.cc)
+target_link_libraries(interpreter_test PRIVATE tokenizer parser interpreter GTest::gtest_main)
 
 include(GoogleTest)
 gtest_discover_tests(tokenizer_test)
