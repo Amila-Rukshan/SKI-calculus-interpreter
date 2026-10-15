@@ -1,5 +1,6 @@
 #include <memory>
 #include <iostream>
+#include <stdexcept>
 
 #include "parser.h"
 
