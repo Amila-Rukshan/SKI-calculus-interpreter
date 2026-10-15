@@ -1,0 +1,61 @@
+name: release
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { os: ubuntu-24.04,     name: ski-linux-x64 }
+          - { os: ubuntu-24.04-arm, name: ski-linux-arm64 }
+          - { os: macos-15-intel,   name: ski-macos-x64 }
+          - { os: macos-15,         name: ski-macos-arm64 }
+          - { os: windows-2025,     name: ski-windows-x64,   arch: x64 }
+          - { os: windows-11-arm,   name: ski-windows-arm64, arch: ARM64 }
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure
+        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Release ${{ matrix.arch && format('-A {0}', matrix.arch) || '' }}
+
+      - name: Build
+        run: cmake --build build --config Release --target ski
+
+      - name: Package
+        run: |
+          mkdir dist
+          if [ "$RUNNER_OS" = "Windows" ]; then
+            cp build/Release/ski.exe "dist/${{ matrix.name }}.exe"
+          else
+            cp build/ski "dist/${{ matrix.name }}"
+          fi
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.name }}
+          path: dist/*
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: dist
+          merge-multiple: true
+
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: dist/*
+          generate_release_notes: true
